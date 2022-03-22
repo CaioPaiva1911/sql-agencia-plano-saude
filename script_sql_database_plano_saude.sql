@@ -80,7 +80,7 @@ CREATE TABLE tbl_contrato (
 	id_cli_portador int4 NOT NULL,
 	id_dependente int4 NULL,
 	produto int4 NOT NULL,
-	dt_inicio date NULL,
+	dt_inicio date NOT NULL,
 	CONSTRAINT tbl_contrato_pkey PRIMARY KEY (id_contrato),
 	CONSTRAINT tbl_contrato_id_cli_portador_fkey FOREIGN KEY (id_cli_portador) REFERENCES tbl_cliente(id_cliente),
 	CONSTRAINT tbl_contrato_id_dependente_fkey FOREIGN KEY (id_dependente) REFERENCES tbl_cliente(id_cliente),
