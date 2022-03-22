@@ -68,6 +68,20 @@ CREATE TABLE tbl_produto (
 	CONSTRAINT tbl_produto_pkey PRIMARY KEY (id_produto)
 );
 
+-- public.tbl_dependente definition
+
+-- Drop table
+
+-- DROP TABLE tbl_dependente;
+
+CREATE TABLE tbl_dependente (
+	id_depen serial4 NOT NULL,
+	cliente int4 NOT NULL,
+	dependente int4 NOT NULL,
+	CONSTRAINT tbl_dependente_pkey PRIMARY KEY (id_depen),
+	CONSTRAINT tbl_dependente_cliente_fkey FOREIGN KEY (cliente) REFERENCES tbl_cliente(id_cliente),
+	CONSTRAINT tbl_dependente_dependente_fkey FOREIGN KEY (dependente) REFERENCES tbl_cliente(id_cliente)
+);
 
 -- public.tbl_contrato definition
 
@@ -86,23 +100,6 @@ CREATE TABLE tbl_contrato (
 	CONSTRAINT tbl_contrato_id_dependente_fkey FOREIGN KEY (id_dependente) REFERENCES tbl_cliente(id_cliente),
 	CONSTRAINT tbl_contrato_produto_fkey FOREIGN KEY (produto) REFERENCES tbl_produto(id_produto)
 );
-
-
--- public.tbl_dependente definition
-
--- Drop table
-
--- DROP TABLE tbl_dependente;
-
-CREATE TABLE tbl_dependente (
-	id_depen serial4 NOT NULL,
-	cliente int4 NOT NULL,
-	dependente int4 NOT NULL,
-	CONSTRAINT tbl_dependente_pkey PRIMARY KEY (id_depen),
-	CONSTRAINT tbl_dependente_cliente_fkey FOREIGN KEY (cliente) REFERENCES tbl_cliente(id_cliente),
-	CONSTRAINT tbl_dependente_dependente_fkey FOREIGN KEY (dependente) REFERENCES tbl_cliente(id_cliente)
-);
-
 
 insert into tbl_cliente (nome, dt_nascimento, email) values ('Caio Paiva', '2001-11-19', 'caio.paiva@gmail.com');
 insert into tbl_cliente (nome, dt_nascimento, email) values ('Gabriel Peres', '1996-01-30', 'gabriel.peres@gmail.com');
