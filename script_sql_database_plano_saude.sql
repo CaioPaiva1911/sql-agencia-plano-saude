@@ -1,4 +1,5 @@
-CREATE DATABASE db_plano_saude;
+create database db_plano_saude;
+
 -- DROP SCHEMA public;
 
 CREATE SCHEMA public AUTHORIZATION postgres;
@@ -76,11 +77,13 @@ CREATE TABLE tbl_produto (
 
 CREATE TABLE tbl_contrato (
 	id_contrato serial4 NOT NULL,
-	cliente int4 NOT NULL,
+	id_cli_portador int4 NOT NULL,
+	id_dependente int4 NULL,
 	produto int4 NOT NULL,
 	dt_inicio date NULL,
 	CONSTRAINT tbl_contrato_pkey PRIMARY KEY (id_contrato),
-	CONSTRAINT tbl_contrato_cliente_fkey FOREIGN KEY (cliente) REFERENCES tbl_cliente(id_cliente),
+	CONSTRAINT tbl_contrato_id_cli_portador_fkey FOREIGN KEY (id_cli_portador) REFERENCES tbl_cliente(id_cliente),
+	CONSTRAINT tbl_contrato_id_dependente_fkey FOREIGN KEY (id_dependente) REFERENCES tbl_cliente(id_cliente),
 	CONSTRAINT tbl_contrato_produto_fkey FOREIGN KEY (produto) REFERENCES tbl_produto(id_produto)
 );
 
@@ -107,10 +110,12 @@ insert into tbl_cliente  (nome, dt_nascimento, email) values ('Samuel Peres', '2
 
 insert into tbl_dependente (cliente, dependente) values (2, 3);
 
-insert into tbl_produto (codigo_ans, descricao , valor) values (16, 'TUSS - Procedimentos Médicos', 160);
+insert into tbl_produto (codigo_ans, descricao , valor) values (16, 'TUSS - Procedimentos MÃ©dicos', 160);
 
-insert into tbl_contrato (cliente, produto, dt_inicio) values (1, 1, '2020-09-25');
-
+insert into tbl_contrato (id_cli_portador, id_dependente, produto, dt_inicio) values (1, 1, 1, current_timestamp);
+insert into tbl_contrato (id_cli_portador, id_dependente, produto, dt_inicio) values (2, null, 1, current_timestamp);
+insert into tbl_contrato (id_cli_portador, id_dependente, produto, dt_inicio) values (2, 3, 1,current_timestamp);
 
 select * from tbl_cliente tc; 
 select * from tbl_dependente td;
+select * from tbl_contrato tc;
