@@ -46,11 +46,11 @@ CREATE SEQUENCE public.tbl_produto_id_produto_seq
 -- DROP TABLE tbl_cliente;
 
 CREATE TABLE tbl_cliente (
-	id_cliente serial4 NOT NULL,
+	id_cliente int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	nome varchar(255) NOT NULL,
 	email varchar(128) NOT NULL,
 	dt_nascimento date NOT NULL,
-	CONSTRAINT tbl_cliente_pkey PRIMARY KEY (id_cliente)
+	CONSTRAINT cliente_pk PRIMARY KEY (id_cliente)
 );
 
 
@@ -61,11 +61,11 @@ CREATE TABLE tbl_cliente (
 -- DROP TABLE tbl_produto;
 
 CREATE TABLE tbl_produto (
-	id_produto serial4 NOT NULL,
+	id_produto int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	codigo_ans int4 NOT NULL,
 	descricao varchar(255) NULL,
 	valor money NULL,
-	CONSTRAINT tbl_produto_pkey PRIMARY KEY (id_produto)
+	CONSTRAINT produto_pk PRIMARY KEY (id_produto)
 );
 
 -- public.tbl_dependente definition
@@ -75,13 +75,14 @@ CREATE TABLE tbl_produto (
 -- DROP TABLE tbl_dependente;
 
 CREATE TABLE tbl_dependente (
-	id_depen serial4 NOT NULL,
+	id_depen int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	cliente int4 NOT NULL,
 	dependente int4 NOT NULL,
-	CONSTRAINT tbl_dependente_pkey PRIMARY KEY (id_depen),
-	CONSTRAINT tbl_dependente_cliente_fkey FOREIGN KEY (cliente) REFERENCES tbl_cliente(id_cliente),
-	CONSTRAINT tbl_dependente_dependente_fkey FOREIGN KEY (dependente) REFERENCES tbl_cliente(id_cliente)
+	CONSTRAINT dependente_pk PRIMARY KEY (id_depen),
+	CONSTRAINT cliente_fk FOREIGN KEY (cliente) REFERENCES tbl_cliente(id_cliente),
+	CONSTRAINT dependente_fk FOREIGN KEY (dependente) REFERENCES tbl_cliente(id_cliente)
 );
+
 
 -- public.tbl_contrato definition
 
@@ -90,15 +91,15 @@ CREATE TABLE tbl_dependente (
 -- DROP TABLE tbl_contrato;
 
 CREATE TABLE tbl_contrato (
-	id_contrato serial4 NOT NULL,
+	id_contrato int4 NOT NULL GENERATED ALWAYS AS IDENTITY,
 	id_cli_portador int4 NOT NULL,
 	id_dependente int4 NULL,
 	produto int4 NOT NULL,
 	dt_inicio date NOT NULL,
-	CONSTRAINT tbl_contrato_pkey PRIMARY KEY (id_contrato),
-	CONSTRAINT tbl_contrato_id_cli_portador_fkey FOREIGN KEY (id_cli_portador) REFERENCES tbl_cliente(id_cliente),
-	CONSTRAINT tbl_contrato_id_dependente_fkey FOREIGN KEY (id_dependente) REFERENCES tbl_cliente(id_cliente),
-	CONSTRAINT tbl_contrato_produto_fkey FOREIGN KEY (produto) REFERENCES tbl_produto(id_produto)
+	CONSTRAINT contrato_pk PRIMARY KEY (id_contrato),
+	CONSTRAINT dependente_fk FOREIGN KEY (id_dependente) REFERENCES tbl_cliente(id_cliente),
+	CONSTRAINT portador_fk FOREIGN KEY (id_cli_portador) REFERENCES tbl_cliente(id_cliente),
+	CONSTRAINT produto_fk FOREIGN KEY (produto) REFERENCES tbl_produto(id_produto)
 );
 
 insert into tbl_cliente (nome, dt_nascimento, email) values ('Caio Paiva', '2001-11-19', 'caio.paiva@gmail.com');
